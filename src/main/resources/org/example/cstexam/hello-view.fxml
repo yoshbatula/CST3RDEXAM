@@ -1,16 +1,115 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
-
 <?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="org.example.cstexam.HelloController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
-</VBox>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="612.0" prefWidth="946.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.cstexam.HelloController">
+   <children>
+      <AnchorPane prefHeight="608.0" prefWidth="933.0">
+         <children>
+            <ImageView fitHeight="463.0" fitWidth="946.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/bg%202.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="415.0" fitWidth="945.0" layoutY="207.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/bg%202.png" />
+               </image>
+            </ImageView>
+            <AnchorPane layoutX="44.0" layoutY="28.0" opacity="0.31" prefHeight="200.0" prefWidth="860.0" styleClass="header" stylesheets="@css/turing.css">
+               <children>
+                  <Text fill="WHITE" layoutX="36.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="textHEADER" text="TURING ">
+                     <font>
+                        <Font name="Code-Bold" size="32.0" />
+                     </font>
+                  </Text>
+                  <Text fill="WHITE" layoutX="31.0" layoutY="101.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="textHEADER" text="MACHINE">
+                     <font>
+                        <Font name="Code-Bold" size="32.0" />
+                     </font>
+                  </Text>
+                  <Text fill="WHITE" layoutX="43.0" layoutY="132.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="textHEADER" text="BINARY ADDITION">
+                     <font>
+                        <Font name="Code-Bold" size="12.0" />
+                     </font>
+                  </Text>
+                  <Line endX="39.6666259765625" endY="-71.0" layoutX="146.0" layoutY="81.0" startX="39.6666259765625" startY="102.0" stroke="WHITE" strokeMiterLimit="20.0" />
+                  <Text fill="#fffafa" layoutX="213.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="A Turing machine performing binary addition is a theoretical computational model that adds two binary numbers. It consists of an infinite tape divided into cells, a head that reads and writes symbols (binary digits), and a set of rules governing state transitions. The machine reads two binary numbers on the tape, processes them according to the addition rules, and handles carry-over between digits. It moves left or right on the tape to read and write, ultimately leaving the result of the addition on the tape when the computation halts." wrappingWidth="646.0025634765625">
+                     <font>
+                        <Font name="Code-Bold" size="19.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="44.0" layoutY="240.0" prefHeight="317.0" prefWidth="860.0" styleClass="header" stylesheets="@css/turing.css">
+               <children>
+                  <AnchorPane layoutX="20.0" layoutY="106.0" prefHeight="200.0" prefWidth="811.0" style="-fx-background-color: white; -fx-background-radius: 10px;">
+                     <children>
+                        <GridPane fx:id="RESULTAPE" layoutX="40.0" layoutY="128.0" prefHeight="30.0" prefWidth="731.0" style="-fx-background-color: #616161;">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                        </GridPane>
+                        <GridPane fx:id="ORIGINALTAPE" layoutX="40.0" layoutY="44.0" prefHeight="30.0" prefWidth="731.0" style="-fx-background-color: #616161;">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="20.0" minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="7.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                        </GridPane>
+                     </children></AnchorPane>
+                  <Text fill="WHITE" layoutX="20.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="First Binary Number:">
+                     <font>
+                        <Font name="Code-Bold" size="17.0" />
+                     </font>
+                  </Text>
+                  <Text fill="WHITE" layoutX="20.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="second binary number: ">
+                     <font>
+                        <Font name="Code-Bold" size="17.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="firstBTN" layoutX="198.0" layoutY="15.0" prefHeight="25.0" prefWidth="196.0" style="-fx-background-radius: 10px;" />
+                  <TextField fx:id="secondBTN" layoutX="217.0" layoutY="50.0" prefHeight="25.0" prefWidth="196.0" style="-fx-background-radius: 10px;" />
+                  <TextField fx:id="BinaryResult" layoutX="532.0" layoutY="14.0" prefHeight="25.0" prefWidth="231.0" promptText="Binary Result:" style="-fx-background-radius: 10px;" />
+                  <TextField fx:id="DecimalResult" layoutX="532.0" layoutY="50.0" prefHeight="25.0" prefWidth="259.0" promptText="Decimal Result:" style="-fx-background-radius: 10px;" />
+               </children>
+            </AnchorPane>
+            <Button fx:id="getresultBTN" layoutX="203.0" layoutY="571.0" mnemonicParsing="false" onAction="#onGetResultClicked" prefHeight="26.0" prefWidth="169.0" style="-fx-background-color: #616161; -fx-background-radius: 20px;" text="GET RESULT" textFill="WHITE">
+               <font>
+                  <Font name="Code-Bold" size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="ClearInputBTN" layoutX="390.0" layoutY="570.0" mnemonicParsing="false" onAction="#onClearClicked" prefHeight="26.0" prefWidth="169.0" style="-fx-background-color: #616161; -fx-background-radius: 20px;" text="CLEAR INPUT" textFill="#f8f8f8">
+               <font>
+                  <Font name="Code-Bold" size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="EXIT" layoutX="572.0" layoutY="571.0" mnemonicParsing="false" onAction="#onExitClicked" prefHeight="26.0" prefWidth="169.0" style="-fx-background-color: #616161; -fx-background-radius: 20px;" text="EXIT" textFill="WHITE">
+               <font>
+                  <Font name="Code-Bold" size="14.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
