@@ -28,10 +28,10 @@ public class HelloController {
     @FXML
     private Button ClearInputBTN;
     @FXML
-    private GridPane ORIGINALTAPE; // FXML component for original tape
+    private GridPane ORIGINALTAPE;
 
     @FXML
-    private GridPane RESULTAPE; // FXML component for result tape
+    private GridPane RESULTAPE;
 
     @FXML
     private TextField DecimalResult;
@@ -42,8 +42,8 @@ public class HelloController {
     @FXML
     private TextField secondBTN;
 
-    private char[] originalTape = new char[20]; // Internal representation of the original tape
-    private char[] resultTape = new char[20];   // Internal representation of the result tape
+    private char[] originalTape = new char[20];
+    private char[] resultTape = new char[20];
     private int state;
     private int head;
 
@@ -70,8 +70,8 @@ public class HelloController {
         }
 
         String input = firstBinary + "+" + secondBinary;
-        initializeTape(originalTape, input); // Initialize internal tape with input
-        initializeTape(resultTape, input);    // Initialize result tape as well
+        initializeTape(originalTape, input);
+        initializeTape(resultTape, input);
 
         state = 0;
         head = 10;
@@ -92,11 +92,10 @@ public class HelloController {
 
     @FXML
     public void onGetResultClicked() {
-        // Step 1: Validate and process binary input
+
         String firstBinary = firstBTN.getText();
         String secondBinary = secondBTN.getText();
 
-        // Check if inputs are valid and not empty
         if (firstBinary.isEmpty() || secondBinary.isEmpty()) {
             showErrorMessage("Please enter both binary numbers.");
             return;
@@ -107,14 +106,12 @@ public class HelloController {
             return;
         }
 
-        // Initialize the binary tapes and start the Turing Machine simulation
         onBinaryResultClicked();
 
-        // Step 2: Convert binary to decimal and show the decimal result
         try {
-            int decimal1 = Integer.parseInt(firstBinary, 2);  // Convert first binary number to decimal
-            int decimal2 = Integer.parseInt(secondBinary, 2); // Convert second binary number to decimal
-            int sum = decimal1 + decimal2;                    // Calculate the decimal sum
+            int decimal1 = Integer.parseInt(firstBinary, 2);
+            int decimal2 = Integer.parseInt(secondBinary, 2);
+            int sum = decimal1 + decimal2;
 
             // Display the decimal result
             DecimalResult.setText(decimal1 + " + " + decimal2 + " = " + sum);
@@ -137,13 +134,13 @@ public class HelloController {
 
     @FXML
     public void onClearClicked() {
-        // Clear all input fields and reset the tapes
+
         firstBTN.setText("");
         secondBTN.setText("");
         BinaryResult.setText("");
         DecimalResult.setText("");
-        Arrays.fill(originalTape, '_'); // Reset original tape
-        Arrays.fill(resultTape, '_');   // Reset result tape
+        Arrays.fill(originalTape, '_');
+        Arrays.fill(resultTape, '_');
         drawTapes();
     }
 
@@ -191,43 +188,42 @@ public class HelloController {
                 break;
 
             case 2:
-                char firstBit = resultTape[head - 4]; // First operand bit
-                char secondBit = resultTape[head];    // Second operand bit
+                char firstBit = resultTape[head - 4];
+                char secondBit = resultTape[head];
 
                 if (firstBit == '1' && secondBit == '1') {
-                    resultTape[head] = '0'; // Set current position to '0'
-                    propagateCarry(head - 1); // Handle carry
+                    resultTape[head] = '0';
+                    propagateCarry(head - 1);
                     head--;
                 } else if (firstBit == '1' && secondBit == '0' || firstBit == '0' && secondBit == '1') {
-                    resultTape[head] = '1'; // Simple sum without carry
+                    resultTape[head] = '1';
                     head--;
                 } else {
-                    resultTape[head] = '0'; // Both are '0'
+                    resultTape[head] = '0';
                     head--;
                 }
 
                 if (head == 9) {
-                    state = 3; // Stop when the computation is done
+                    state = 3;
                 }
                 break;
         }
     }
 
     private void propagateCarry(int position) {
-        // Move left and propagate the carry
+
         while (position >= 0 && resultTape[position] != '_') {
             if (resultTape[position] == '0') {
-                resultTape[position] = '1'; // Set carry
-                return; // Stop carry propagation
+                resultTape[position] = '1';
+                return;
             } else if (resultTape[position] == '1') {
-                resultTape[position] = '0'; // Flip bit and continue carry
+                resultTape[position] = '0';
             }
             position--;
         }
 
-        // If we reach a blank space, place the carry there
         if (position >= 0) {
-            resultTape[position] = '1'; // Place carry at empty spot
+            resultTape[position] = '1';
         }
     }
 
@@ -255,8 +251,7 @@ public class HelloController {
     private void drawTape(GridPane tapeGrid, char[] tape, String label) {
         tapeGrid.getChildren().clear();
 
-        // Set the background color of the GridPane
-        tapeGrid.setStyle("-fx-background-color: white;"); // or any desired color
+        tapeGrid.setStyle("-fx-background-color: white;");
 
         Canvas canvas = new Canvas(760, 100);
         GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -267,12 +262,12 @@ public class HelloController {
         gc.fillText(label, 20, 30);
 
         for (int i = 0; i < tape.length; i++) {
-            gc.strokeRect(x, y, 30, 30);  // Drawing the grid
-            gc.fillText(String.valueOf(tape[i]), x + 10, y + 20); // Drawing tape values
+            gc.strokeRect(x, y, 30, 30);
+            gc.fillText(String.valueOf(tape[i]), x + 10, y + 20);
             x += 30;
         }
-        gc.fillText("^", 20 + (head * 30) + 10, y + 50); // Drawing the head pointer
-        tapeGrid.add(canvas, 0, 0);  // Add canvas to the GridPane
+        gc.fillText("^", 20 + (head * 30) + 10, y + 50);
+        tapeGrid.add(canvas, 0, 0);
     }
 
     private void showErrorMessage(String message) {
