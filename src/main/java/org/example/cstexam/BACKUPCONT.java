@@ -8,9 +8,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.text.Text;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
 
 public class BACKUPCONT {
 
@@ -40,7 +38,7 @@ public class BACKUPCONT {
         // Set up columns for the TableView
         TableColumn<TuringStep, String> stateCol = new TableColumn<>("State");
         TableColumn<TuringStep, String> tapeCol = new TableColumn<>("Tape");
-        TableColumn<TuringStep, String> headCol = new TableColumn<>("Head");
+        TableColumn<TuringStep, String> headCol = new TableColumn<>("Head Position");
         TableColumn<TuringStep, String> actionCol = new TableColumn<>("Action");
 
         // Set up how to populate the columns
@@ -50,10 +48,7 @@ public class BACKUPCONT {
         actionCol.setCellValueFactory(new PropertyValueFactory<>("action"));
 
         // Add columns to the TableView
-        turingTable.getColumns().add(stateCol);
-        turingTable.getColumns().add(tapeCol);
-        turingTable.getColumns().add(headCol);
-        turingTable.getColumns().add(actionCol);
+        turingTable.getColumns().addAll(stateCol, tapeCol, headCol, actionCol);
 
         // Expand the table to fit the ScrollPane
         turingTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);  // Resize columns to fill table
@@ -124,12 +119,44 @@ public class BACKUPCONT {
     private void simulateTuringMachine(String binary1, String binary2, String result) {
         ObservableList<TuringStep> turingSteps = FXCollections.observableArrayList();
 
-        // Example steps - You can customize this with actual Turing machine logic
-        turingSteps.add(new TuringStep("q0", binary1 + " + " + binary2, "Head at LHS", "Start"));
-        turingSteps.add(new TuringStep("q1", binary1, "Head at 2nd bit", "Read 1"));
-        turingSteps.add(new TuringStep("q2", result, "Head at RHS", "Result computed"));
+        // Creating a combined tape for binary1, binary2, and result
+        String tape = binary1 + "+" + binary2 + "=" + result;
+        int headPosition = 0;
 
-        turingTable.setItems(turingSteps);  // Set items to display in the table
+        // Simulate initial state (q0)
+        turingSteps.add(new TuringStep("q0", tape, String.valueOf(headPosition), "Start, head at beginning of tape"));
+
+        // Simulate reading the first binary number
+        for (int i = 0; i < binary1.length(); i++) {
+            turingSteps.add(new TuringStep("q1", tape, String.valueOf(headPosition), "Reading first binary number"));
+            headPosition++;
+        }
+
+        // Simulate reading the '+' symbol
+        turingSteps.add(new TuringStep("q2", tape, String.valueOf(headPosition), "Reading '+' symbol"));
+        headPosition++;
+
+        // Simulate reading the second binary number
+        for (int i = 0; i < binary2.length(); i++) {
+            turingSteps.add(new TuringStep("q3", tape, String.valueOf(headPosition), "Reading second binary number"));
+            headPosition++;
+        }
+
+        // Simulate reading the '=' symbol
+        turingSteps.add(new TuringStep("q4", tape, String.valueOf(headPosition), "Reading '=' symbol"));
+        headPosition++;
+
+        // Simulate writing the result
+        for (int i = 0; i < result.length(); i++) {
+            turingSteps.add(new TuringStep("q5", tape, String.valueOf(headPosition), "Writing result"));
+            headPosition++;
+        }
+
+        // Simulate final state (q6)
+        turingSteps.add(new TuringStep("q6", tape, String.valueOf(headPosition), "End of computation, Turing machine halts"));
+
+        // Set the table data
+        turingTable.setItems(turingSteps);
     }
 
     // Class representing each step of the Turing machine

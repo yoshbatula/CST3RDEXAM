@@ -14,10 +14,13 @@ import javafx.util.Duration;
 
 import java.util.Arrays;
 
-public class HelloController {
+public class V2CONT {
 
     @FXML
     private TextField BinaryResult;
+
+    @FXML
+    private TextField DecimalResult;
 
     @FXML
     private Button EXIT;
@@ -35,9 +38,6 @@ public class HelloController {
     private GridPane RESULTAPE;
 
     @FXML
-    private TextField DecimalResult;
-
-    @FXML
     private TextField firstBTN;
 
     @FXML
@@ -50,7 +50,7 @@ public class HelloController {
 
     private Timeline timer;
 
-    public HelloController() {
+    public V2CONT() {
         Arrays.fill(originalTape, '_');
         Arrays.fill(resultTape, '_');
     }
@@ -81,7 +81,9 @@ public class HelloController {
         timer = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
             if (state == 3) {
                 timer.stop();
-                BinaryResult.setText(getResult());  // Show binary result
+                String result = getResult(); // Get binary result
+                BinaryResult.setText(result);  // Show binary result
+                DecimalResult.setText(String.valueOf(binaryToDecimal(result))); // Show decimal result
                 drawTapes();
             } else {
                 performStep();
@@ -90,8 +92,28 @@ public class HelloController {
         }));
         timer.setCycleCount(Timeline.INDEFINITE);
         timer.play();
-
     }
+
+    @FXML
+    public void onClearInputClicked() {
+        // Reset all fields and tapes
+        firstBTN.clear();
+        secondBTN.clear();
+        BinaryResult.clear();
+        DecimalResult.clear(); // Clear decimal result
+        Arrays.fill(originalTape, '_');
+        Arrays.fill(resultTape, '_');
+        head = 1;
+        state = 0;
+        drawTapes();
+    }
+
+    @FXML
+    public void onExitClicked() {
+        // Close the application
+        System.exit(0);
+    }
+
     private boolean isValidBinaryInput(String input) {
         for (char c : input.toCharArray()) {
             if (c != '0' && c != '1') {
@@ -111,46 +133,58 @@ public class HelloController {
 
     private void performStep() {
         char symbol = resultTape[head];
+        char firstBit = (head - 4 >= 0) ? resultTape[head - 4] : '_'; // Capture the first bit for debugging.
+
+        System.out.println("State: " + state + ", Head: " + head + ", Symbol: " + symbol +
+                ", First Bit: " + firstBit);
 
         switch (state) {
-            case 0:
+            case 0: // Reading the first binary number
                 if (symbol == '1' || symbol == '0') {
-                    head++;
+                    head++; // Move right to next bit
                 } else if (symbol == '+') {
-                    state = 1;
-                    head++;
-                }
-                break;
-
-            case 1:
-                if (symbol == '1' || symbol == '0') {
-                    head++;
+                    state = 1; // Move to state 1 to read the second binary number
+                    head++; // Move right
                 } else if (symbol == '_') {
-                    head--; // Go back to the last number
-                    state = 2;
+                    // Stop processing if we encounter an underscore with no further numbers
+                    state = 3; // Transition to final state
                 }
                 break;
 
-            case 2:
-                char firstBit = resultTape[head - 4];  // Adjust based on where you expect the bits to be
-                char secondBit = resultTape[head];
-
-                if (firstBit == '1' && secondBit == '1') {
-                    resultTape[head] = '0';  // Set the result bit
-                    propagateCarry(head - 1);  // Handle carry
-                    head--; // Move left
-                } else if (firstBit == '1' && secondBit == '0' || firstBit == '0' && secondBit == '1') {
-                    resultTape[head] = '1'; // Set result to '1'
-                    head--; // Move left
-                } else { // Both bits are '0'
-                    resultTape[head] = '0'; // Set result to '0'
-                    head--; // Move left
-                }
-
-                if (head < 0) { // Check if we've reached the beginning of the tape
-                    state = 3; // Final state
+            case 1: // Reading the second binary number
+                if (symbol == '1' || symbol == '0') {
+                    head++; // Move right to next bit
+                } else if (symbol == '_') {
+                    // When we hit the end of the second number, move to the addition state
+                    state = 2; // Transition to state 2 for addition
+                    head--; // Move back to the last symbol read
                 }
                 break;
+
+            case 2: // Performing the addition
+                if (head < 0 || resultTape[head] == '_') {
+                    // If we reach the left end of the tape or hit an underscore, stop processing
+                    state = 3; // Move to final state
+                } else {
+                    char secondBit = resultTape[head]; // Current symbol to add
+                    char sum = (firstBit == '1' && secondBit == '1') ? '0' :
+                            (firstBit == '1' || secondBit == '1') ? '1' : '0'; // Calculate the sum
+
+                    resultTape[head] = sum; // Store the sum
+                    // Determine carry
+                    if (firstBit == '1' && secondBit == '1') {
+                        propagateCarry(head - 1); // Propagate carry if needed
+                    }
+
+                    // Move left for the next bit
+                    head--;
+                    firstBit = (head - 4 >= 0) ? resultTape[head - 4] : '_'; // Capture the new first bit for the next iteration
+                }
+                break;
+
+            case 3: // Final state
+                System.out.println("Final State Reached. Stopping the Turing Machine.");
+                return; // Stop execution
         }
     }
 
@@ -183,6 +217,11 @@ public class HelloController {
         finalResult = finalResult.replaceFirst("^0+(?!$)", "");  // Remove leading zeros
 
         return finalResult.isEmpty() ? "0" : finalResult;  // Return "0" if the result is empty
+    }
+
+    // New method to convert binary result to decimal
+    private int binaryToDecimal(String binary) {
+        return Integer.parseInt(binary, 2);
     }
 
     private void drawTapes() {
@@ -219,3 +258,5 @@ public class HelloController {
         alert.showAndWait();
     }
 }
+
+
