@@ -125,95 +125,104 @@ public class BACKUPCONT {
     private void initializeTransitionTable() {
         transitionTable = new HashMap<>();
 
-        // q0 Transitions: Process first binary number
+        // q0: Process first binary number
         transitionTable.put("q0", Map.of(
-                '0', new Transition("q0", '0', 1),  // Stay in q0 if '0'
-                '1', new Transition("q0", '1', 1),  // Stay in q0 if '1'
-                '+', new Transition("q1", '+', 1),  // Move to q1 on '+' (after first binary)
-                'B', new Transition("q2", 'B', -1)  // Move to q2 on blank (end of input)
+                '0', new Transition("q0", '0', 1),  // Move right on '0'
+                '1', new Transition("q0", '1', 1),  // Move right on '1'
+                '+', new Transition("q1", '+', 1),  // Move to q1 when '+' is encountered
+                'B', new Transition("q2", 'B', -1)  // Blank detected, move to q2 (end of input)
         ));
 
-        // q1 Transitions: Process second binary number
+        // q1: Process second binary number
         transitionTable.put("q1", Map.of(
-                '0', new Transition("q1", '0', 1),  // Stay in q1 if '0'
-                '1', new Transition("q1", '1', 1),  // Stay in q1 if '1'
-                '=', new Transition("q2", '=', -1)  // Move to q2 on '='
+                '0', new Transition("q1", '0', 1),  // Move right on '0'
+                '1', new Transition("q1", '1', 1),  // Move right on '1'
+                '=', new Transition("q2", '=', -1)  // Encounter '=' and move left (to start addition)
         ));
 
-        // q2 Transitions: Move left to find '+' and start the addition process
+        // q2: Move left to locate '+' and start addition
         transitionTable.put("q2", Map.of(
-                '0', new Transition("q2", '0', -1),  // Stay in q2 and move left on '0'
-                '1', new Transition("q2", '1', -1),  // Stay in q2 and move left on '1'
-                '+', new Transition("q3", '+', -1)   // Move to q3 on '+'
+                '0', new Transition("q2", '0', -1),  // Move left on '0'
+                '1', new Transition("q2", '1', -1),  // Move left on '1'
+                '+', new Transition("q3", '+', -1)   // Move to q3 when '+' is found (start addition)
         ));
 
-        // q3 Transitions: Handle carry bit during addition
+        // q3: Handle binary addition (flip bits, handle carry)
         transitionTable.put("q3", Map.of(
-                '0', new Transition("q4", '1', 1),  // Change '0' to '1' and move to q4
-                '1', new Transition("q3", '0', -1), // Change '1' to '0' and stay in q3
-                'B', new Transition("q4", '1', 1)   // Handle carry, write '1' to blank, move to q4
+                '0', new Transition("q4", '1', 1),  // Change '0' to '1' (handle addition), move right
+                '1', new Transition("q3", '0', -1), // Change '1' to '0' and stay (carry over)
+                'B', new Transition("q4", '1', 1)   // Write '1' if blank (carry over), move to q4
         ));
 
-        // q4 Transitions: Move right to finalize result
+        // q4: Finalize result, move right across the tape
         transitionTable.put("q4", Map.of(
-                '0', new Transition("q4", '0', 1),  // Stay in q4 and move right on '0'
-                '1', new Transition("q4", '1', 1),  // Stay in q4 and move right on '1'
-                '=', new Transition("q5", '=', 1),  // Keep moving right after '='
-                'B', new Transition("q5", 'B', 0)   // Halt on blank (q5 is the halt state)
+                '0', new Transition("q4", '0', 1),  // Move right on '0'
+                '1', new Transition("q4", '1', 1),  // Move right on '1'
+                '=', new Transition("q5", '=', 1),  // Move to q5 (final state) when '=' is reached
+                'B', new Transition("q5", 'B', 0)   // Halt at blank (final halt state)
         ));
 
-        // q5 Transitions: Halt state
+        // q5: Final halting state
         transitionTable.put("q5", Map.of(
-                'B', new Transition("q5", 'B', 0)   // Stay in q5 (halt)
+                'B', new Transition("q5", 'B', 0)   // Halt when blank is reached
         ));
     }
 
 
 
 
-    // Simulate Turing machine process and populate table
+
+
+    // Simulate Turing machine process and show tape movement with brackets around changes
     private void simulateTuringMachine(String binary1, String binary2, String result) {
         ObservableList<TuringStep> turingSteps = FXCollections.observableArrayList();
 
-        // Creating a combined tape for binary1, binary2, and result
+        // Create the initial tape for binary1, binary2, and result
         String tape = binary1 + "+" + binary2 + "=" + result;
-        char[] tapeArr = (tape + "B").toCharArray();  // Add blank space to tape
+        char[] tapeArr = (tape + "B").toCharArray();  // Add a blank space at the end
         int headPosition = 0;
         String state = "q0";
 
-        // Simulate each transition
-        while (!state.equals("q5")) {  // Continue until halt state (q5)
+        // Simulate transitions step by step
+        while (!state.equals("q5")) {  // Continue until halting state (q5)
             char currentChar = tapeArr[headPosition];
             Map<Character, Transition> transitions = transitionTable.get(state);
 
             if (transitions != null && transitions.containsKey(currentChar)) {
                 Transition transition = transitions.get(currentChar);
 
-                // Log the current state and action before updating the tape
+                // Create a copy of the tape with the head position highlighted
+                StringBuilder tapeWithHead = new StringBuilder(new String(tapeArr));
+                tapeWithHead.insert(headPosition, '(');
+                tapeWithHead.insert(headPosition + 2, ')');  // Adjust for '(' insertion
+
+                // Log the current state, head position, and action before updating
                 turingSteps.add(new TuringStep(
                         state,
-                        new String(tapeArr),
+                        tapeWithHead.toString(),  // Current tape state with head position highlighted
                         String.valueOf(headPosition),
                         "Read '" + currentChar + "' -> Write '" + transition.write + "' Move " + (transition.move == 1 ? "Right" : "Left")
                 ));
 
-                // Write the new value on the tape (update the tape content)
+                // Update the tape (write new character)
                 tapeArr[headPosition] = transition.write;
 
-                // Move the head
+                // Move the head (left or right)
                 headPosition += transition.move;
 
                 // Transition to the next state
                 state = transition.nextState;
             } else {
-                // If no transition is available, halt the machine
-                turingSteps.add(new TuringStep(state, new String(tapeArr), String.valueOf(headPosition), "Halt"));
-                break;
+                break;  // No transition available, stop the machine
             }
         }
 
         // Add the final state before halting
-        turingSteps.add(new TuringStep(state, new String(tapeArr), String.valueOf(headPosition), "Halt"));
+        StringBuilder finalTapeWithHead = new StringBuilder(new String(tapeArr));
+        finalTapeWithHead.insert(headPosition, '(');
+        finalTapeWithHead.insert(headPosition + 2, ')');  // Adjust for '(' insertion
+
+        turingSteps.add(new TuringStep(state, finalTapeWithHead.toString(), String.valueOf(headPosition), "Halt"));
 
         // Set the table data
         turingTable.setItems(turingSteps);
