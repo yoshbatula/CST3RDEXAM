@@ -125,68 +125,87 @@ public class V2CONT {
 
     private void initializeTape(char[] tape, String input) {
         Arrays.fill(tape, '_');
+        int split = input.indexOf('+');
         for (int i = 0; i < input.length(); i++) {
-            tape[i + 1] = input.charAt(i);  // Set starting index to 1
+            if (input.charAt(i) != '+') {
+                tape[i + 1] = input.charAt(i);  // Skip the "+" sign
+            }
         }
-        head = 1;  // Reset the head position to 1
+        head = split + 1;  // Set head after the '+' sign
     }
 
     private void performStep() {
         char symbol = resultTape[head];
-        char firstBit = (head - 4 >= 0) ? resultTape[head - 4] : '_'; // Capture the first bit for debugging.
 
-        System.out.println("State: " + state + ", Head: " + head + ", Symbol: " + symbol +
-                ", First Bit: " + firstBit);
+        // Print debug info
+        System.out.println("State: " + state + ", Head: " + head + ", Symbol: " + symbol);
 
         switch (state) {
             case 0: // Reading the first binary number
                 if (symbol == '1' || symbol == '0') {
-                    head++; // Move right to next bit
+                    head++; // Move right to the next bit
                 } else if (symbol == '+') {
                     state = 1; // Move to state 1 to read the second binary number
                     head++; // Move right
                 } else if (symbol == '_') {
-                    // Stop processing if we encounter an underscore with no further numbers
-                    state = 3; // Transition to final state
+                    state = 4; // Transition to final state (both numbers were empty)
                 }
                 break;
 
             case 1: // Reading the second binary number
                 if (symbol == '1' || symbol == '0') {
-                    head++; // Move right to next bit
+                    head++; // Move right to the next bit
                 } else if (symbol == '_') {
-                    // When we hit the end of the second number, move to the addition state
-                    state = 2; // Transition to state 2 for addition
-                    head--; // Move back to the last symbol read
+                    state = 2; // Move to state 2 for addition
+                    head--; // Move back to the last valid symbol read
                 }
                 break;
 
-            case 2: // Performing the addition
-                if (head < 0 || resultTape[head] == '_') {
-                    // If we reach the left end of the tape or hit an underscore, stop processing
-                    state = 3; // Move to final state
+            case 2: // Preparing for addition (at the end of the second number)
+                System.out.println("In State 2: symbol='" + symbol + "', head=" + head);
+                if (symbol == '_') {
+                    System.out.println("State 2: Encountered '_', moving to State 3");
+                    head--; // Move back to the last bit of the second number
+                    state = 3; // Move to state 3 to perform addition
                 } else {
-                    char secondBit = resultTape[head]; // Current symbol to add
-                    char sum = (firstBit == '1' && secondBit == '1') ? '0' :
-                            (firstBit == '1' || secondBit == '1') ? '1' : '0'; // Calculate the sum
-
-                    resultTape[head] = sum; // Store the sum
-                    // Determine carry
-                    if (firstBit == '1' && secondBit == '1') {
-                        propagateCarry(head - 1); // Propagate carry if needed
-                    }
-
-                    // Move left for the next bit
-                    head--;
-                    firstBit = (head - 4 >= 0) ? resultTape[head - 4] : '_'; // Capture the new first bit for the next iteration
+                    head++; // Keep moving right through the second number
                 }
                 break;
 
-            case 3: // Final state
-                System.out.println("Final State Reached. Stopping the Turing Machine.");
-                return; // Stop execution
+            case 3: // Performing binary addition
+                System.out.println("In State 3: Performing addition, head=" + head);
+
+                // Get the last bits to add
+                char bit1 = (head - 1 >= 0) ? resultTape[head - 1] : '_'; // Last bit of first binary number
+                char bit2 = (head >= 0) ? resultTape[head] : '_'; // Last bit of second binary number
+
+                // If both bits are blank, we've completed the addition
+                if (bit1 == '_' && bit2 == '_') {
+                    System.out.println("State 3: Addition complete, moving to final state.");
+                    state = 4;  // Transition to final state
+                    return;  // Stop further processing
+                }
+
+                // Perform binary addition
+                char sum = (bit1 == '1' && bit2 == '1') ? '0' :
+                        (bit1 == '1' || bit2 == '1') ? '1' : '0'; // Calculate the sum
+                resultTape[head] = sum; // Store the sum in the current position
+
+                // Handle carry if both bits are 1
+                if (bit1 == '1' && bit2 == '1') {
+                    propagateCarry(head - 1); // Propagate carry if both bits were 1
+                }
+
+                head--;  // Move to the next bit to the left for further addition
+                break;
+
+            case 4: // Final state
+                System.out.println("Final state reached. Turing machine halting.");
+                timer.stop();  // Stop the simulation
+                break;
         }
     }
+
 
     private void propagateCarry(int position) {
         while (position >= 0 && resultTape[position] != '_') {
@@ -204,6 +223,11 @@ public class V2CONT {
         }
     }
 
+    // New method to convert binary result to decimal
+    private int binaryToDecimal(String binary) {
+        return binary.isEmpty() ? 0 : Integer.parseInt(binary, 2);  // Convert binary to decimal, handle empty case
+    }
+
     private String getResult() {
         StringBuilder result = new StringBuilder();
 
@@ -217,11 +241,6 @@ public class V2CONT {
         finalResult = finalResult.replaceFirst("^0+(?!$)", "");  // Remove leading zeros
 
         return finalResult.isEmpty() ? "0" : finalResult;  // Return "0" if the result is empty
-    }
-
-    // New method to convert binary result to decimal
-    private int binaryToDecimal(String binary) {
-        return Integer.parseInt(binary, 2);
     }
 
     private void drawTapes() {

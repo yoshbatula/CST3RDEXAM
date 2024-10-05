@@ -6,19 +6,24 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Polyline?>
+<?import javafx.scene.shape.QuadCurve?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="577.0" prefWidth="693.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.cstexam.BACKUPCONT">
+<AnchorPane prefHeight="639.0" prefWidth="1157.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.cstexam.BACKUPCONT">
    <children>
-      <AnchorPane prefHeight="570.0" prefWidth="693.0">
+      <AnchorPane layoutY="6.0" prefHeight="631.0" prefWidth="1157.0">
          <children>
-            <ImageView fitHeight="291.0" fitWidth="799.0" pickOnBounds="true" preserveRatio="true">
+            <Line endX="159.30206298828125" layoutX="849.0" layoutY="212.0" startX="-107.0" />
+            <ImageView fitHeight="491.0" fitWidth="1152.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/bg%202.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="291.0" fitWidth="799.0" layoutY="286.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="516.0" fitWidth="1161.0" layoutX="-4.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/bg%202.png" />
                </image>
@@ -54,7 +59,7 @@
                   <Font name="Code-Bold" size="14.0" />
                </font>
             </Button>
-            <ScrollPane fx:id="resultPANE" layoutX="51.0" layoutY="301.0" prefHeight="262.0" prefWidth="592.0">
+            <ScrollPane fx:id="resultPANE" layoutX="31.0" layoutY="320.0" prefHeight="262.0" prefWidth="592.0">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
               </content>
@@ -71,7 +76,186 @@
                   <Font name="Code-Bold" size="18.0" />
                </font>
             </Text>
+            <Circle fill="#fcfcfc" layoutX="722.0" layoutY="395.0" radius="20.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fill="#fcfcfc" layoutX="722.0" layoutY="212.0" radius="20.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fill="#fcfcfc" layoutX="1027.0" layoutY="395.0" radius="20.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fill="#fcfcfc" layoutX="1027.0" layoutY="213.0" radius="20.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fill="#fcfcfc" layoutX="810.0" layoutY="293.0" radius="20.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fill="#fcfcfc" layoutX="934.0" layoutY="295.0" radius="20.0" stroke="BLACK" strokeType="INSIDE" />
+            <Text layoutX="992.0" layoutY="221.0" strokeType="OUTSIDE" strokeWidth="0.0" text="►" wrappingWidth="16.30206298828125">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Text>
+            <Line endX="158.800048828125" layoutX="843.0" layoutY="213.0" startX="-100.0" />
+            <Line endX="30.60003662109375" endY="-53.0" layoutX="692.0" layoutY="285.0" startX="30.0" startY="90.0" />
+            <Line endX="294.4000244140625" endY="90.0" layoutX="713.0" layoutY="305.0" startX="32.79998779296875" startY="90.0" />
+            <Line endX="306.800048828125" endY="-82.20001220703125" layoutX="720.0" layoutY="315.0" startX="306.800048828125" startY="58.600006103515625" />
+            <Line endX="-18.8489990234375" endY="25.6484375" layoutX="810.0" layoutY="252.0" startX="-74.5999755859375" startY="-27.20001220703125" />
+            <Line endX="88.20001220703125" endY="33.199981689453125" layoutX="820.0" layoutY="262.0" startX="10.0" startY="33.199981689453125" />
+            <Text layoutX="739.0" layoutY="402.0" strokeType="OUTSIDE" strokeWidth="0.0" text="◄" wrappingWidth="16.30206298828125">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Text>
+            <Text layoutX="898.0" layoutY="302.0" strokeType="OUTSIDE" strokeWidth="0.0" text="►" wrappingWidth="16.30206298828125">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Text>
+            <Text layoutX="713.0" layoutY="247.0" strokeType="OUTSIDE" strokeWidth="0.0" text="▲" wrappingWidth="16.30206298828125">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Text>
+            <Text layoutX="1017.0" layoutY="376.0" strokeType="OUTSIDE" strokeWidth="0.0" text="▼" wrappingWidth="16.30206298828125">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Text>
+            <Circle fill="#fcfcfc" layoutX="934.0" layoutY="295.0" radius="17.0" stroke="BLACK" strokeType="INSIDE" />
+            <Text layoutX="708.0" layoutY="194.0" strokeType="OUTSIDE" strokeWidth="0.0" text="▼" wrappingWidth="16.30206298828125">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Text>
+            <Text layoutX="783.0" layoutY="287.0" strokeType="OUTSIDE" strokeWidth="0.0" text="►" wrappingWidth="16.30206298828125">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Text>
+            <Text layoutX="685.0" layoutY="403.0" strokeType="OUTSIDE" strokeWidth="0.0" text="►" wrappingWidth="16.30206298828125">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Text>
+            <Text layoutX="1045.0" layoutY="221.0" strokeType="OUTSIDE" strokeWidth="0.0" text="◄" wrappingWidth="16.30206298828125">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Text>
+            <Text layoutX="1045.0" layoutY="405.0" strokeType="OUTSIDE" strokeWidth="0.0" text="◄" wrappingWidth="16.30206298828125">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Text>
+            <Text layoutX="800.0" layoutY="329.0" strokeType="OUTSIDE" strokeWidth="0.0" text="▲" wrappingWidth="16.30206298828125">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Text>
+            <QuadCurve controlX="-51.0" controlY="-54.79998779296875" endX="-2.99993896484375" endY="-33.20001220703125" fill="#ffffff00" layoutX="721.0" layoutY="210.0" startX="-19.0" startY="2.0" stroke="BLACK" strokeType="INSIDE" />
+            <QuadCurve controlX="-100.0" controlY="-19.800018310546875" endX="-51.0" endY="-74.60000610351562" fill="#ffffff00" layoutX="738.0" layoutY="469.0" startX="-13.5999755859375" startY="-54.79998779296875" stroke="BLACK" strokeType="INSIDE" />
+            <QuadCurve controlX="-90.4000244140625" controlY="7.399993896484375" endX="-51.0" endY="-74.60000610351562" fill="#ffffff00" layoutX="842.0" layoutY="367.0" startX="-33.60003662109375" startY="-38.20001220703125" stroke="BLACK" strokeType="INSIDE" />
+            <QuadCurve controlX="37.7999267578125" controlY="-60.80000305175781" endX="4.302001953125" endY="21.599990844726562" fill="#ffffff00" layoutX="1057.0" layoutY="194.0" startX="-34.199951171875" startY="-1.20001220703125" stroke="BLACK" strokeType="INSIDE" />
+            <QuadCurve controlX="19.199951171875" controlY="-59.800018310546875" endX="-8.800048828125" endY="20.199981689453125" fill="#ffffff00" layoutX="1074.0" layoutY="377.0" startX="-40.697998046875" startY="1.0" stroke="BLACK" strokeType="INSIDE" />
+            <Text layoutX="713.0" layoutY="216.0" strokeType="OUTSIDE" strokeWidth="0.0" text="q1" wrappingWidth="16.30206298828125">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text layoutX="714.0" layoutY="400.0" strokeType="OUTSIDE" strokeWidth="0.0" text="q0" wrappingWidth="16.30206298828125">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text layoutX="1019.0" layoutY="399.0" strokeType="OUTSIDE" strokeWidth="0.0" text="q3" wrappingWidth="16.30206298828125">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text layoutX="1017.0" layoutY="218.0" strokeType="OUTSIDE" strokeWidth="0.0" text="q2" wrappingWidth="16.30206298828125">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text layoutX="802.0" layoutY="297.0" strokeType="OUTSIDE" strokeWidth="0.0" text="q4" wrappingWidth="16.30206298828125">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text layoutX="926.0" layoutY="298.0" strokeType="OUTSIDE" strokeWidth="0.0" text="q5" wrappingWidth="16.30206298828125">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text layoutX="855.0" layoutY="387.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0/1,R" wrappingWidth="33.536781311035156">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text layoutX="855.0" layoutY="413.0" strokeType="OUTSIDE" strokeWidth="0.0" text="#/1,R" wrappingWidth="33.536781311035156">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text layoutX="629.0" layoutY="402.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1/1,R" wrappingWidth="33.536781311035156">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text layoutX="629.0" layoutY="422.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0/0,R" wrappingWidth="33.536781311035156">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text layoutX="628.0" layoutY="441.0" strokeType="OUTSIDE" strokeWidth="0.0" text="+/+,R" wrappingWidth="40.8173828125">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text layoutX="687.0" layoutY="308.0" strokeType="OUTSIDE" strokeWidth="0.0" text="#/#,L" wrappingWidth="33.536781311035156">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text layoutX="699.0" layoutY="164.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0/1,L" wrappingWidth="33.536781311035156">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text layoutX="852.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1/0,L" wrappingWidth="33.536781311035156">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text layoutX="992.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1/1,L" wrappingWidth="33.536781311035156">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text layoutX="1074.0" layoutY="219.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0/0,L" wrappingWidth="33.536781311035156">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text layoutX="1033.0" layoutY="298.0" strokeType="OUTSIDE" strokeWidth="0.0" text="+/+,L" wrappingWidth="40.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text layoutX="1073.0" layoutY="400.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1/0,L" wrappingWidth="40.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text layoutX="766.0" layoutY="357.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1/#,R" wrappingWidth="33.536781311035156">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text layoutX="771.0" layoutY="258.0" strokeType="OUTSIDE" strokeWidth="0.0" text="+/#,R" wrappingWidth="40.8173828125">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text layoutX="849.0" layoutY="291.0" strokeType="OUTSIDE" strokeWidth="0.0" text="#/#,H" wrappingWidth="40.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
          </children>
       </AnchorPane>
+      <Polyline fill="CHARTREUSE" points="-114.79998779296875, 86.4000015258789, -81.19999694824219, -13.600000381469727, -66.0, 58.400001525878906, -114.80000305175781, 95.20000457763672" strokeType="INSIDE" />
    </children>
 </AnchorPane>
