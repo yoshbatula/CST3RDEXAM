@@ -129,47 +129,53 @@ public class BACKUPCONT {
     private void initializeTransitionTable() {
         transitionTable = new HashMap<>();
 
-        // q0 Transitions (process first binary number)
-        transitionTable.put("q0", Map.of(
-                '0', new Transition("q0", '0', 1),  // Stay in q0 if '0'
-                '1', new Transition("q0", '1', 1),  // Stay in q0 if '1'
-                '+', new Transition("q1", '+', 1)   // Move to q1 on '+'
-        ));
+        // Loop through states and define transitions using switch statements
+        for (String state : new String[]{"q0", "q1", "q2", "q3", "q4", "q5"}) {
+            Map<Character, Transition> stateTransitions = new HashMap<>();
 
-        // q1 Transitions (process second binary number)
-        transitionTable.put("q1", Map.of(
-                '0', new Transition("q1", '0', 1),  // Stay in q1 if '0'
-                '1', new Transition("q1", '1', 1),  // Stay in q1 if '1'
-                'B', new Transition("q2", 'B', -1)  // Move to q2 when blank (end of second binary number)
-        ));
+            switch (state) {
+                case "q0":
+                    stateTransitions.put('0', new Transition("q0", '0', 1));  // Stay in q0 if '0'
+                    stateTransitions.put('1', new Transition("q0", '1', 1));  // Stay in q0 if '1'
+                    stateTransitions.put('+', new Transition("q1", '+', 1));  // Move to q1 on '+'
+                    break;
 
-        // q2 Transitions (move left to begin addition)
-        transitionTable.put("q2", Map.of(
-                '0', new Transition("q2", '0', -1),  // Move left through the second binary number
-                '1', new Transition("q2", '1', -1),  // Move left through the second binary number
-                '+', new Transition("q3", '+', -1)   // Move to q3 when '+' is reached (start adding)
-        ));
+                case "q1":
+                    stateTransitions.put('0', new Transition("q1", '0', 1));  // Stay in q1 if '0'
+                    stateTransitions.put('1', new Transition("q1", '1', 1));  // Stay in q1 if '1'
+                    stateTransitions.put('B', new Transition("q2", 'B', -1)); // Move to q2 when blank (end of second binary number)
+                    break;
 
-        // q3 Transitions (perform binary addition, handle carry bit)
-        transitionTable.put("q3", Map.of(
-                '0', new Transition("q4", '1', -1),  // Write '1' when adding '0' and carry
-                '1', new Transition("q3", '0', -1),  // Write '0' when adding '1' (carry), stay in q3
-                'B', new Transition("q4", '1', 1)     // Write '1' for overflow, move right to halt
-        ));
+                case "q2":
+                    stateTransitions.put('0', new Transition("q2", '0', -1));  // Move left through the second binary number
+                    stateTransitions.put('1', new Transition("q2", '1', -1));  // Move left through the second binary number
+                    stateTransitions.put('+', new Transition("q3", '+', -1));  // Move to q3 when '+' is reached (start adding)
+                    break;
 
-        // q4 Transitions (finalize and halt)
-        transitionTable.put("q4", Map.of(
-                '0', new Transition("q4", '0', 1),  // Final state, move right
-                '1', new Transition("q4", '1', 1),  // Final state, move right
-                'B', new Transition("q5", 'B', 0)   // Halt state
-        ));
+                case "q3":
+                    stateTransitions.put('0', new Transition("q4", '1', -1));  // Write '1' when adding '0' and carry
+                    stateTransitions.put('1', new Transition("q3", '0', -1));  // Write '0' when adding '1' (carry), stay in q3
+                    stateTransitions.put('B', new Transition("q4", '1', 1));   // Write '1' for overflow, move right to halt
+                    break;
 
-        // q5 Transitions (halt state)
-        transitionTable.put("q5", Map.of(
-                'B', new Transition("q5", 'B', 0)   // Stay in q5 (halt)
-        ));
+                case "q4":
+                    stateTransitions.put('0', new Transition("q4", '0', 1));   // Final state, move right
+                    stateTransitions.put('1', new Transition("q4", '1', 1));   // Final state, move right
+                    stateTransitions.put('B', new Transition("q5", 'B', 0));   // Halt state
+                    break;
+
+                case "q5":
+                    stateTransitions.put('B', new Transition("q5", 'B', 0));   // Stay in q5 (halt)
+                    break;
+
+                default:
+                    throw new IllegalStateException("Unexpected state: " + state);
+            }
+
+            // Add the state transitions to the transition table
+            transitionTable.put(state, stateTransitions);
+        }
     }
-
     private void simulateTuringMachine(String binary1, String binary2, String result) {
         ObservableList<TuringStep> turingSteps = FXCollections.observableArrayList();
 
