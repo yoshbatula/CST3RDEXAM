@@ -2,6 +2,7 @@ package org.example.cstexam;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -72,9 +73,9 @@ public class DFAV2CONT {
         // Once the DFA finishes processing all inputs, check for acceptance
         KeyFrame finalFrame = new KeyFrame(delayBetweenSteps.multiply(input.length() + 1), event -> {
             if (currentState == 3) {
-                showAlert("Accepted", "The input string is accepted because it ends with '100'.");
+                showAlert("Accepted", "THE INPUT STRING IS ACCEPT: " + inputTF.getText());
             } else {
-                showAlert("Rejected", "The input string is rejected because it does not end with '100'.");
+                showAlert("Rejected", "THE INPUT STRING IS REJECTED: " + inputTF.getText());
             }
         });
 
@@ -148,13 +149,15 @@ public class DFAV2CONT {
         circleQ3.setFill(Color.LIGHTGRAY);
     }
 
-    // Show an alert with the result (Accepted/Rejected) without blocking UI thread
+    // Method to display an alert
     private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.show(); // Non-blocking call
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle(title);
+            alert.setHeaderText(null);  // You can remove this if you want a header
+            alert.setContentText(message);
+            alert.show();  // Display the alert without blocking the JavaFX thread
+        });
     }
 
     // Clear the DFA simulation and reset to the initial state
@@ -165,6 +168,7 @@ public class DFAV2CONT {
 
     // Reset the DFA and highlight the initial state q0
     private void resetDFA() {
+        inputTF.setText("");
         currentState = 0; // Reset to initial state
         highlightState(currentState); // Highlight the initial state
     }
