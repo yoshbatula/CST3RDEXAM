@@ -13,17 +13,17 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="639.0" prefWidth="1157.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.cstexam.BACKUPCONT">
+<AnchorPane prefHeight="624.0" prefWidth="1131.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.cstexam.BACKUPCONT">
    <children>
-      <AnchorPane layoutY="6.0" prefHeight="631.0" prefWidth="1157.0">
+      <AnchorPane prefHeight="624.0" prefWidth="1128.0">
          <children>
             <Line endX="159.30206298828125" layoutX="849.0" layoutY="212.0" startX="-107.0" />
-            <ImageView fitHeight="491.0" fitWidth="1152.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="488.0" fitWidth="1153.0" layoutY="-21.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/bg%202.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="516.0" fitWidth="1161.0" layoutX="-4.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="504.0" fitWidth="1153.0" layoutX="-4.0" layoutY="139.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/bg%202.png" />
                </image>
@@ -59,7 +59,7 @@
                   <Font name="Code-Bold" size="14.0" />
                </font>
             </Button>
-            <ScrollPane fx:id="resultPANE" layoutX="31.0" layoutY="320.0" prefHeight="262.0" prefWidth="592.0">
+            <ScrollPane fx:id="resultPANE" layoutX="7.0" layoutY="320.0" prefHeight="300.0" prefWidth="657.0">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
               </content>
@@ -189,17 +189,17 @@
                   <Font size="14.0" />
                </font>
             </Text>
-            <Text layoutX="629.0" layoutY="402.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1/1,R" wrappingWidth="33.536781311035156">
+            <Text layoutX="705.0" layoutY="440.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1/1,R" wrappingWidth="33.536781311035156">
                <font>
                   <Font size="14.0" />
                </font>
             </Text>
-            <Text layoutX="629.0" layoutY="422.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0/0,R" wrappingWidth="33.536781311035156">
+            <Text layoutX="705.0" layoutY="460.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0/0,R" wrappingWidth="33.536781311035156">
                <font>
                   <Font size="14.0" />
                </font>
             </Text>
-            <Text layoutX="628.0" layoutY="441.0" strokeType="OUTSIDE" strokeWidth="0.0" text="+/+,R" wrappingWidth="40.8173828125">
+            <Text layoutX="703.0" layoutY="480.0" strokeType="OUTSIDE" strokeWidth="0.0" text="+/+,R" wrappingWidth="40.8173828125">
                <font>
                   <Font size="14.0" />
                </font>
