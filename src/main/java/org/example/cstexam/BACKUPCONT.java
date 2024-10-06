@@ -5,7 +5,9 @@ import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
+import javafx.scene.text.Text;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,6 +34,12 @@ public class BACKUPCONT {
     private TextArea transitionAREA;
 
     @FXML
+    private Pane resultPanel;
+
+    @FXML
+    private TextField resultTapeField;
+
+    @FXML
     private void initialize() {
         System.out.println("Initializing controller..."); // Debugging statement
         System.out.println("transitionAREA is " + (transitionAREA == null ? "null" : "not null")); // Check if it's null
@@ -47,7 +55,7 @@ public class BACKUPCONT {
         if (!binary1.matches("[01]+") || !binary2.matches("[01]+")) {
             resultTF.setText("Invalid input! Enter valid binary numbers.");
             decimalTF.setText("");
-            transitionAREA.clear(); // Clear previous results
+            transitionAREA.setText(""); // Clear previous results
         } else {
             String binaryResult = addBinary(binary1, binary2);
             resultTF.setText(binaryResult);
@@ -63,7 +71,8 @@ public class BACKUPCONT {
         secondTF.clear();
         resultTF.clear();
         decimalTF.clear();
-        transitionAREA.clear(); // Clear the TextArea
+        transitionAREA.setText(""); // Clear the TextArea
+        resultPanel.getChildren().clear(); // Clear the result panel
     }
 
     @FXML
@@ -96,98 +105,112 @@ public class BACKUPCONT {
         transitionTable.put("q0", new HashMap<>());
         transitionTable.get("q0").put('0', new Transition("q0", '0', 1));  // Read '0', stay in q0, move right
         transitionTable.get("q0").put('1', new Transition("q0", '1', 1));  // Read '1', stay in q0, move right
-        transitionTable.get("q0").put('+', new Transition("q1", '+', 1));  // Read '+', move to q1, move right
+        transitionTable.get("q0").put('+', new Transition("q0", '+', 1));  // Read '+', stay in q0, move right
+        transitionTable.get("q0").put('B', new Transition("q1", 'B', -1)); // Read 'B', move left, go to q1
 
         // State q1 transitions
         transitionTable.put("q1", new HashMap<>());
-        transitionTable.get("q1").put('0', new Transition("q1", '0', 1));  // Read '0', stay in q1, move right
-        transitionTable.get("q1").put('1', new Transition("q1", '1', 1));  // Read '1', stay in q1, move right
-        transitionTable.get("q1").put('B', new Transition("q2", 'B', -1));  // Read blank, move left, go to q2
+        transitionTable.get("q1").put('0', new Transition("q1", '1', -1));  // Read '0', write '1', move left
+        transitionTable.get("q1").put('1', new Transition("q2", '0', -1));  // Read '1', write '0', move left
+        transitionTable.get("q1").put('+', new Transition("q4", 'B', 1));   // Read '+', write 'B', move right, go to q4
 
-        // State q2 transitions (Addition logic)
+        // State q2 transitions
         transitionTable.put("q2", new HashMap<>());
-        transitionTable.get("q2").put('1', new Transition("q3", '0', -1));  // Read '1', write '0', carry, move left
-        transitionTable.get("q2").put('0', new Transition("q3", '1', -1));  // Read '0', write '1', move left
+        transitionTable.get("q2").put('0', new Transition("q2", '0', -1));  // Read '0', stay in q2, move left
+        transitionTable.get("q2").put('1', new Transition("q2", '1', -1));  // Read '1', stay in q2, move left
+        transitionTable.get("q2").put('+', new Transition("q3", '+', -1));  // Read '+', move left, go to q3
 
         // State q3 transitions
         transitionTable.put("q3", new HashMap<>());
-        transitionTable.get("q3").put('+', new Transition("q4", '+', -1));  // Skip over '+', move to q4
-        transitionTable.get("q3").put('1', new Transition("q4", '0', -1));  // Propagate carry, move left
+        transitionTable.get("q3").put('1', new Transition("q3", '0', -1));  // Read '1', write '0', move left
+        transitionTable.get("q3").put('0', new Transition("q0", '1', 1));   // Read '0', write '1', move right, go to q0
+        transitionTable.get("q3").put('B', new Transition("q0", '1', 1));   // Read 'B', write '1', move right, go to q0
 
         // State q4 transitions
         transitionTable.put("q4", new HashMap<>());
-        transitionTable.get("q4").put('1', new Transition("q5", '0', 0));  // Handle carry and move to q5
-        transitionTable.get("q4").put('0', new Transition("q5", '1', 0));  // No carry, move to q5
-        transitionTable.get("q4").put('+', new Transition("q5", '+', 0));  // Skip '+' and move to q5
-    }
-
-    public void appendToTextArea(String text) {
-        transitionAREA.appendText(text + "\n");
+        transitionTable.get("q4").put('B', new Transition("q5", 'B', 0));   // Halt condition
+        transitionTable.get("q4").put('1', new Transition("q4", '0', 1));   // Read '1', write '0', move right
+        transitionTable.get("q4").put('0', new Transition("q4", '1', 1));   // Read '0', write '1', move right
     }
 
     @FXML
     private void simulateTuringMachine(String binary1, String binary2, String binaryResult) {
-        transitionAREA.clear(); // Clear previous transition logs
+        transitionAREA.setText(""); // Clear previous transition logs
 
-        // Create the tape as a StringBuilder
-        StringBuilder tape = new StringBuilder(binary1 + "+" + binary2 + "B");
+        // Create the tape as a character array
+        char[] tapeArray = (binary1 + "+" + binary2 + "B").toCharArray(); // Start directly at the first number
+        StringBuilder steps = new StringBuilder();
+        String currentState = "q0";
+        int headPosition = 0;
 
-        Task<Void> task = new Task<Void>() {
-            String currentState = "q0"; // Start state
-            int headPosition = 0; // Head starts at the first position
+        while (!currentState.equals("q5")) { // Halt when in state q5
+            char currentSymbol = tapeArray[headPosition];
+            Transition transition = transitionTable.get(currentState).get(currentSymbol);
 
-            @Override
-            protected Void call() {
-                while (!currentState.equals("q5")) { // Run until the final state is reached
-                    // Check if the head position is valid
-                    if (headPosition < 0 || headPosition >= tape.length()) {
-                        appendToTextArea("Head position out of bounds. Halting.");
-                        break; // Exit the loop
-                    }
-
-                    // Get the current symbol under the head
-                    char currentSymbol = tape.charAt(headPosition); // Get the current symbol
-
-                    // Debugging output
-                    appendToTextArea("Current State: " + currentState + ", Head Position: " + headPosition + ", Symbol: " + currentSymbol);
-
-                    // Find the transition for the current state and symbol
-                    Transition transition = transitionTable.get(currentState).get(currentSymbol);
-
-                    if (transition == null) {
-                        // No valid transition found; log an error and halt
-                        appendToTextArea("No transition found for state: " + currentState + " with symbol: " + currentSymbol);
-                        break; // Exit the loop
-                    }
-
-                    // Perform the transition
-                    tape.setCharAt(headPosition, transition.getWriteSymbol()); // Write the symbol
-                    currentState = transition.getNextState(); // Update to the next state
-                    headPosition += transition.getDirection(); // Move the head
-
-                    // Ensure head position is within bounds
-                    if (headPosition < 0) {
-                        tape.insert(0, 'B');
-                        headPosition = 0;
-                    } else if (headPosition >= tape.length()) {
-                        tape.append('B');
-                    }
-
-                    // Show the current state, tape, and head position in the TextArea
-                    appendToTextArea("Current State: " + currentState + ", Tape: " + tape.toString() + ", Head Position: " + headPosition);
-
-                    try {
-                        Thread.sleep(1000); // Simulate processing time
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                return null;
+            if (transition == null) {
+                steps.append("No transition found for state: " + currentState + " with symbol: " + currentSymbol + "\n");
+                break;
             }
-        };
 
-        new Thread(task).start(); // Start the task in a new thread
+            // Log the transition
+            steps.append("Transition: " + currentState + ", Read: " + currentSymbol + ", Write: " + transition.getWriteSymbol() + ", Move: " + (transition.getDirection() == 1 ? "R" : "L") + ", Next: " + transition.getNextState() + "  Current Tape: " + new String(tapeArray) + "\n");
+
+            // Perform the transition
+            tapeArray[headPosition] = transition.getWriteSymbol();
+            currentState = transition.getNextState();
+            headPosition += transition.getDirection();
+
+            // Ensure head position is within bounds
+            if (headPosition < 0) {
+                tapeArray = extendTapeLeft(tapeArray);
+                headPosition = 0;
+            } else if (headPosition >= tapeArray.length) {
+                tapeArray = extendTapeRight(tapeArray);
+            }
+        }
+
+        steps.append("The input is accepted.\n"); // Indicate acceptance after halting
+
+        // Convert the updated tape back to string and filter out valid digits
+        StringBuilder filteredResult = new StringBuilder();
+        for (char c : tapeArray) {
+            if (c == 'B') {
+                break; // Stop if we encounter 'B'
+            }
+            if (c == '0' || c == '1') {
+                filteredResult.append(c); // Append only valid digits
+            }
+        }
+
+        String resultTape = new String(filteredResult);
+        transitionAREA.setText(steps.toString()); // Display steps in the text area
+        resultTapeField.setText(resultTape);
+
+        resultPanel.getChildren().clear();
+        resultPanel.getChildren().add(new Text("Result Tape:"));
+
+        // Display the result tape in resultPanel
+        for (char bit : resultTape.toCharArray()) {
+            Label bitLabel = new Label(String.valueOf(bit));
+            bitLabel.setStyle("-fx-border-color: black; -fx-padding: 5px;");
+            resultPanel.getChildren().add(bitLabel);
+        }
     }
+
+    private char[] extendTapeLeft(char[] tapeArray) {
+        char[] newTape = new char[tapeArray.length + 1];
+        System.arraycopy(tapeArray, 0, newTape, 1, tapeArray.length);
+        newTape[0] = 'B';
+        return newTape;
+    }
+
+    private char[] extendTapeRight(char[] tapeArray) {
+        char[] newTape = new char[tapeArray.length + 1];
+        System.arraycopy(tapeArray, 0, newTape, 0, tapeArray.length);
+        newTape[newTape.length - 1] = 'B';
+        return newTape;
+    }
+
     public static class Transition {
         private String nextState;
         private char writeSymbol;

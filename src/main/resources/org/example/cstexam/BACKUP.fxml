@@ -29,7 +29,7 @@
                </image>
             </ImageView>
             <TextField fx:id="firstTF" layoutX="57.0" layoutY="146.0" prefHeight="25.0" prefWidth="282.0" style="-fx-background-radius: 10px;" />
-            <Text fill="#616161" layoutX="57.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Turing Machine ">
+            <Text fill="#616161" layoutX="45.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Turing Machine ">
                <font>
                   <Font name="Code-Bold" size="38.0" />
                </font>
@@ -61,7 +61,7 @@
             </Button>
             <TextField fx:id="resultTF" layoutX="363.0" layoutY="146.0" prefHeight="25.0" prefWidth="290.0" style="-fx-background-radius: 10px;" />
             <TextField fx:id="decimalTF" layoutX="363.0" layoutY="212.0" prefHeight="25.0" prefWidth="290.0" style="-fx-background-radius: 10px;" />
-            <Text fill="#616161" layoutX="363.0" layoutY="133.0" strokeType="OUTSIDE" strokeWidth="0.0" text="RESULT:">
+            <Text fill="#616161" layoutX="363.0" layoutY="133.0" strokeType="OUTSIDE" strokeWidth="0.0" text="BINARY RESULT:">
                <font>
                   <Font name="Code-Bold" size="18.0" />
                </font>
@@ -249,7 +249,7 @@
                   <Font size="14.0" />
                </font>
             </Text>
-            <TextArea fx:id="transitionAREA" editable="false" layoutX="2.0" layoutY="292.0" prefHeight="326.0" prefWidth="662.0" />
+            <TextArea fx:id="transitionAREA" editable="false" layoutX="24.0" layoutY="292.0" prefHeight="326.0" prefWidth="640.0" />
          </children>
       </AnchorPane>
       <Polyline fill="CHARTREUSE" points="-114.79998779296875, 86.4000015258789, -81.19999694824219, -13.600000381469727, -66.0, 58.400001525878906, -114.80000305175781, 95.20000457763672" strokeType="INSIDE" />
