@@ -104,6 +104,17 @@
                </font>
             </Text>
             <Circle fx:id="circleQ21" fill="#ffffff00" layoutX="704.0" layoutY="317.0" radius="33.0" stroke="BLACK" strokeType="INSIDE" />
+            <QuadCurve controlX="37.20001220703125" controlY="-31.599990844726562" endX="63.4000244140625" endY="30.0" fill="#ffffff00" layoutX="155.0" layoutY="242.0" startX="27.60003662109375" startY="47.79998779296875" stroke="BLACK" strokeType="INSIDE" />
+            <Text layoutX="208.0" layoutY="279.0" strokeType="OUTSIDE" strokeWidth="0.0" text="▼ ">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Text layoutX="190.0" layoutY="237.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0,1">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Text>
          </children>
       </AnchorPane>
    </children>
