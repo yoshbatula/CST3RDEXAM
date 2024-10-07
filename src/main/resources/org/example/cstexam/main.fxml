@@ -1,14 +1,127 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.example.cstexam.mainCont"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="507.0" prefWidth="673.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.cstexam.mainpagecont">
+   <children>
+      <AnchorPane prefHeight="500.0" prefWidth="674.0">
+         <children>
+            <ImageView fitHeight="285.0" fitWidth="753.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/bg%202.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="293.0" fitWidth="674.0" layoutY="233.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/bg%202.png" />
+               </image>
+            </ImageView>
+            <Text fill="#616161" layoutX="73.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="THEORY OF AUTOMATA" textAlignment="CENTER" wrappingWidth="526.7763061523438">
+               <font>
+                  <Font name="Code-Bold" size="48.0" />
+               </font>
+            </Text>
+            <Text fill="#616161" layoutX="73.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CHOOSE FOR SELECTION" textAlignment="CENTER" wrappingWidth="526.7763061523438">
+               <font>
+                  <Font name="Code-Bold" size="17.0" />
+               </font>
+            </Text>
+            <Button layoutX="29.0" layoutY="173.0" mnemonicParsing="false" opacity="0.72" prefHeight="112.0" prefWidth="194.0" style="-fx-background-radius: 15;" text="&#10;" textAlignment="CENTER">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Button>
+            <Button layoutX="239.0" layoutY="173.0" mnemonicParsing="false" opacity="0.72" prefHeight="112.0" prefWidth="194.0" style="-fx-background-radius: 15;" text="&#10;" textAlignment="CENTER">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Button>
+            <Button layoutX="450.0" layoutY="173.0" mnemonicParsing="false" opacity="0.72" prefHeight="112.0" prefWidth="194.0" style="-fx-background-radius: 15;" text="&#10;" textAlignment="CENTER">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Button>
+            <Button layoutX="30.0" layoutY="332.0" mnemonicParsing="false" opacity="0.72" prefHeight="112.0" prefWidth="194.0" style="-fx-background-radius: 15;" text="&#10;" textAlignment="CENTER">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Button>
+            <Button layoutX="240.0" layoutY="332.0" mnemonicParsing="false" opacity="0.72" prefHeight="112.0" prefWidth="194.0" style="-fx-background-radius: 15;" text="&#10;" textAlignment="CENTER">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Button>
+            <Button layoutX="451.0" layoutY="332.0" mnemonicParsing="false" opacity="0.72" prefHeight="112.0" prefWidth="194.0" style="-fx-background-radius: 15;" text="&#10;" textAlignment="CENTER">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Button>
+            <Text fill="#616161" layoutX="72.0" layoutY="238.0" strokeType="OUTSIDE" strokeWidth="0.0" text="dfa" textAlignment="CENTER" wrappingWidth="108.1096420288086">
+               <font>
+                  <Font name="Code-Bold" size="40.0" />
+               </font>
+            </Text>
+            <Text fill="#616161" layoutX="272.0" layoutY="238.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ndfa" textAlignment="CENTER" wrappingWidth="130.77632904052734">
+               <font>
+                  <Font name="Code-Bold" size="40.0" />
+               </font>
+            </Text>
+            <Text fill="#616161" layoutX="482.0" layoutY="238.0" strokeType="OUTSIDE" strokeWidth="0.0" text="cfg" textAlignment="CENTER" wrappingWidth="130.77632904052734">
+               <font>
+                  <Font name="Code-Bold" size="40.0" />
+               </font>
+            </Text>
+            <Text fill="#616161" layoutX="59.0" layoutY="393.0" strokeType="OUTSIDE" strokeWidth="0.0" text="pda" textAlignment="CENTER" wrappingWidth="130.77632904052734">
+               <font>
+                  <Font name="Code-Bold" size="40.0" />
+               </font>
+            </Text>
+            <Text fill="#616161" layoutX="272.0" layoutY="393.0" strokeType="OUTSIDE" strokeWidth="0.0" text="tm" textAlignment="CENTER" wrappingWidth="130.77632904052734">
+               <font>
+                  <Font name="Code-Bold" size="40.0" />
+               </font>
+            </Text>
+            <Text fill="#616161" layoutX="482.0" layoutY="393.0" strokeType="OUTSIDE" strokeWidth="0.0" text="toh" textAlignment="CENTER" wrappingWidth="130.77632904052734">
+               <font>
+                  <Font name="Code-Bold" size="40.0" />
+               </font>
+            </Text>
+            <Text fill="#616161" layoutX="28.0" layoutY="253.0" lineSpacing="4.0" strokeType="OUTSIDE" strokeWidth="0.0" text="deterministic finite automata" textAlignment="CENTER" wrappingWidth="194.0">
+               <font>
+                  <Font name="Code-Bold" size="10.0" />
+               </font>
+            </Text>
+            <Text fill="#616161" layoutX="239.0" layoutY="253.0" lineSpacing="4.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Non-deterministic finite automata" textAlignment="CENTER" wrappingWidth="194.0">
+               <font>
+                  <Font name="Code-Bold" size="10.0" />
+               </font>
+            </Text>
+            <Text fill="#616161" layoutX="450.0" layoutY="253.0" lineSpacing="4.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CONTEXT FREE GRAMMAR" textAlignment="CENTER" wrappingWidth="194.0">
+               <font>
+                  <Font name="Code-Bold" size="10.0" />
+               </font>
+            </Text>
+            <Text fill="#616161" layoutX="29.0" layoutY="410.0" lineSpacing="4.0" strokeType="OUTSIDE" strokeWidth="0.0" text="push down automata" textAlignment="CENTER" wrappingWidth="194.0">
+               <font>
+                  <Font name="Code-Bold" size="10.0" />
+               </font>
+            </Text>
+            <Text fill="#616161" layoutX="240.0" layoutY="410.0" lineSpacing="4.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Turing MACHINE | BINARY ADDITION" textAlignment="CENTER" wrappingWidth="194.0">
+               <font>
+                  <Font name="Code-Bold" size="10.0" />
+               </font>
+            </Text>
+            <Text fill="#616161" layoutX="451.0" layoutY="410.0" lineSpacing="4.0" strokeType="OUTSIDE" strokeWidth="0.0" text="tOWER OF HANOI" textAlignment="CENTER" wrappingWidth="194.0">
+               <font>
+                  <Font name="Code-Bold" size="10.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+   </children>
 </AnchorPane>

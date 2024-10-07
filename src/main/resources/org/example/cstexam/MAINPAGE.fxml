@@ -7,34 +7,39 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="507.0" prefWidth="673.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.cstexam.mainpagecont">
+<AnchorPane prefHeight="445.0" prefWidth="674.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.cstexam.mainpagecont">
    <children>
       <AnchorPane prefHeight="500.0" prefWidth="674.0">
          <children>
-            <ImageView fitHeight="285.0" fitWidth="753.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="285.0" fitWidth="674.0" opacity="0.75" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/bg%202.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="293.0" fitWidth="674.0" layoutY="233.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="293.0" fitWidth="674.0" layoutY="233.0" opacity="0.75" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/bg%202.png" />
                </image>
             </ImageView>
-            <Text fill="#616161" layoutX="173.0" layoutY="211.0" strokeType="OUTSIDE" strokeWidth="0.0" text="WELCOME TO " wrappingWidth="345.44293212890625">
+            <Text fill="#616161" layoutX="181.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="WELCOME TO" textAlignment="CENTER" wrappingWidth="310.7762756347656">
                <font>
                   <Font name="Code-Bold" size="48.0" />
                </font>
             </Text>
-            <Text fill="#616161" layoutX="65.0" layoutY="285.0" strokeType="OUTSIDE" strokeWidth="0.0" text="cst4 laboratory exam" wrappingWidth="602.2428894042969">
+            <Text fill="#616161" layoutX="36.0" layoutY="292.0" strokeType="OUTSIDE" strokeWidth="0.0" text="cst4 FINAL PROJECT" textAlignment="CENTER" wrappingWidth="602.2428894042969">
                <font>
-                  <Font name="Code-Bold" size="48.0" />
+                  <Font name="Code-Bold" size="63.0" />
                </font>
             </Text>
-            <Button fx:id="startBTN" layoutX="266.0" layoutY="324.0" mnemonicParsing="false" onAction="#start" style="-fx-background-color: #616161; -fx-text-fill: white; -fx-background-radius: 10px;" text="CLICK TO START">
+            <Button fx:id="startBTN" layoutX="265.0" layoutY="332.0" mnemonicParsing="false" onAction="#start" style="-fx-background-color: #616161; -fx-text-fill: white; -fx-background-radius: 10px;" text="CLICK TO START">
                <font>
                   <Font name="Code-Bold" size="16.0" />
                </font></Button>
+            <Text fill="#616161" layoutX="35.0" layoutY="489.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Batula, Yosh  |  Cenita, Mheil Andrei  |  Dumalogdog, Annika   |   Sevellino, Kent Leonel" textAlignment="CENTER" wrappingWidth="602.2428894042969">
+               <font>
+                  <Font name="Palatino Linotype Bold" size="11.0" />
+               </font>
+            </Text>
          </children>
       </AnchorPane>
    </children>

@@ -73,7 +73,7 @@ public class DFAV2CONT {
         // Once the DFA finishes processing all inputs, check for acceptance
         KeyFrame finalFrame = new KeyFrame(delayBetweenSteps.multiply(input.length() + 1), event -> {
             if (currentState == 3) {
-                showAlert("Accepted", "THE INPUT STRING IS ACCEPT: " + inputTF.getText());
+                showAlert("Accepted", "THE INPUT STRING IS ACCEPTED: " + inputTF.getText());
             } else {
                 showAlert("Rejected", "THE INPUT STRING IS REJECTED: " + inputTF.getText());
             }
