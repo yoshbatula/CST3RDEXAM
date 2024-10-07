@@ -33,19 +33,19 @@
                </font>
             </Text>
             <TextField fx:id="inputTF" layoutX="156.0" layoutY="98.0" prefHeight="26.0" prefWidth="248.0" style="-fx-background-radius: 10PX;" />
-            <Button fx:id="simulateBTN" layoutX="78.0" layoutY="143.0" mnemonicParsing="false" onAction="#simulateHanoi" prefHeight="30.0" prefWidth="110.0" style="-fx-background-radius: 10px; -fx-background-color: #616161; -fx-text-fill: white;" text="SIMULATE">
+            <Button fx:id="simulateBTN" layoutX="78.0" layoutY="143.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="110.0" style="-fx-background-radius: 10px; -fx-background-color: #616161; -fx-text-fill: white;" text="SIMULATE">
                <font>
                   <Font name="Code-Bold" size="16.0" />
                </font>
             </Button>
-            <Button fx:id="resetBTN" layoutX="224.0" layoutY="143.0" mnemonicParsing="false" onAction="#reset" prefHeight="30.0" prefWidth="110.0" style="-fx-background-radius: 10px; -fx-background-color: #616161; -fx-text-fill: white;" text="RESET">
+            <Button fx:id="resetBTN" layoutX="224.0" layoutY="143.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="110.0" style="-fx-background-radius: 10px; -fx-background-color: #616161; -fx-text-fill: white;" text="RESET">
                <font>
                   <Font name="Code-Bold" size="16.0" />
                </font>
             </Button>
             <AnchorPane fx:id="buildPANE" layoutX="43.0" layoutY="206.0" prefHeight="332.0" prefWidth="826.0">
                <children>
-                  <Text fx:id="statusText" layoutX="135.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="555.7366943359375">
+                  <Text fx:id="statusText" layoutX="135.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="555.7366943359375">
                      <font>
                         <Font size="16.0" />
                      </font>

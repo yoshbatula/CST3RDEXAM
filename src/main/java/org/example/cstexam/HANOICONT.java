@@ -8,10 +8,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 public class HANOICONT {
@@ -31,129 +34,184 @@ public class HANOICONT {
     @FXML
     private Text statusText;
 
-    private Stack<Integer>[] towers;
-    private int numberOfDisks;
+    private Stack<Rectangle>[] towers;
+    private int numDisks;
+    private final double towerX[] = {100, 300, 500}; // X positions of the towers
+    private int currentStep;
 
-    public void initialize() {
-        reset();
-    }
+    // List to store move steps as pairs of (from, to)
+    private List<MoveStep> moveSteps;
+    private int moveStepIndex; // To track the current move step
 
     @FXML
-    public void simulateHanoi() {
-        try {
-            numberOfDisks = Integer.parseInt(inputTF.getText());
-            if (numberOfDisks < 1 || numberOfDisks > 10) throw new NumberFormatException(); // Limit number of disks
-            reset();
-            drawTowers();
+    public void initialize() {
+        simulateBTN.setOnAction(event -> startSimulation());
+        resetBTN.setOnAction(event -> resetGame());
+    }
 
-            // Run the solving process in a separate thread
-            new Thread(() -> {
-                solveHanoi(numberOfDisks, 0, 2, 1);
-                Platform.runLater(() -> statusText.setText("Simulation Complete")); // Update status text after completion
-            }).start(); // Run in a separate thread
+    private void startSimulation() {
+        String input = inputTF.getText();
+        try {
+            numDisks = Integer.parseInt(input);
+            if (numDisks < 1) {
+                statusText.setText("Please enter a positive integer.");
+                return;
+            }
+            buildPANE.getChildren().clear();
+            initializeTowers();
+            statusText.setText("Simulation started...");
+            currentStep = 0; // Reset step count
+
+            // Generate all move steps first
+            moveSteps = new ArrayList<>();
+            hanoi(numDisks, 0, 2, 1);
+
+            // Initialize move step index
+            moveStepIndex = 0;
+
+            // Disable simulate button to prevent multiple simulations
+            simulateBTN.setDisable(true);
+            resetBTN.setDisable(true);
+            inputTF.setDisable(true);
+
+            // Start executing the move steps
+            executeNextMove();
         } catch (NumberFormatException e) {
-            statusText.setText("Please enter a valid number of disks (1-10).");
+            statusText.setText("Invalid input. Please enter a number.");
         }
     }
 
-    @FXML
-    private void reset() {
-        buildPANE.getChildren().clear();
+    @SuppressWarnings("unchecked")
+    private void initializeTowers() {
         towers = new Stack[3];
         for (int i = 0; i < 3; i++) {
             towers[i] = new Stack<>();
         }
-        statusText.setText(""); // Clear status text on reset
-    }
-
-    private void drawTowers() {
-        double towerWidth = 10;
-        double towerHeight = 200;
-        double towerSpacing = 150;
-
-        // Center the towers
-        double centerX = buildPANE.getWidth() / 2;
 
         // Draw the towers
         for (int i = 0; i < 3; i++) {
-            Rectangle tower = new Rectangle(towerWidth, towerHeight);
-            tower.setFill(Color.GRAY);
-            tower.setX(centerX + (i - 1) * towerSpacing); // Center towers relative to centerX
-            tower.setY(80);
+            Line tower = new Line(towerX[i], 100, towerX[i], 300); // Tower height
             buildPANE.getChildren().add(tower);
         }
 
-        // Initialize disks
-        for (int i = numberOfDisks; i > 0; i--) {
-            towers[0].push(i);
-        }
-        drawDisks();
-    }
+        double width = 30;
+        double height = 20;
 
-    private void drawDisks() {
-        buildPANE.getChildren().removeIf(node -> node instanceof Rectangle && node.getId() != null);
-        for (int i = 0; i < 3; i++) {
-            int[] disks = towers[i].stream().mapToInt(Integer::intValue).toArray();
-            for (int j = 0; j < disks.length; j++) {
-                int diskSize = disks[j];
-                Rectangle disk = new Rectangle(diskSize * 20, 20);
-                disk.setFill(Color.BLUE);
-                disk.setId("disk" + diskSize); // Set an ID for easy removal
-                disk.setX((buildPANE.getWidth() / 2) + (i - 1) * 150 - (diskSize * 20) / 2); // Center the disk on the tower
-                disk.setY(300 - (20 * (j + 1))); // Stack the disks correctly
-                buildPANE.getChildren().add(disk);
-            }
+        // Initialize the disks (largest to smallest)
+        for (int i = 0; i < numDisks; i++) {
+            double diskWidth = width + (numDisks - i - 1) * 20;
+            Rectangle disk = new Rectangle(diskWidth, height, Color.BLUE);
+            disk.setLayoutX(towerX[0] - (diskWidth / 2));
+            disk.setLayoutY(300 - (i + 1) * (height + 5)); // Largest disk at the bottom
+            towers[0].push(disk);
+            buildPANE.getChildren().add(disk);
         }
     }
 
-    private void solveHanoi(int n, int from, int to, int aux) {
+    // Method to generate move steps and store them in moveSteps list
+    private void hanoi(int n, int from, int to, int aux) {
         if (n == 1) {
-            moveDisk(from, to); // Move the disk directly
+            moveSteps.add(new MoveStep(from, to));
         } else {
-            solveHanoi(n - 1, from, aux, to); // Move n-1 disks to auxiliary
-            moveDisk(from, to); // Move the nth disk
-            solveHanoi(n - 1, aux, to, from); // Move n-1 disks to the target
+            hanoi(n - 1, from, aux, to);
+            moveSteps.add(new MoveStep(from, to));
+            hanoi(n - 1, aux, to, from);
         }
     }
 
-    private void moveDisk(int from, int to) {
-        if (towers[from].isEmpty()) return;
-
-        int disk = towers[from].pop();
-        towers[to].push(disk);
-
-        // Find the rectangle representing the disk to animate
-        Rectangle diskRectangle = (Rectangle) buildPANE.lookup("#disk" + disk);
-        if (diskRectangle != null) {
-            // Calculate the target positions
-            double targetX = (buildPANE.getWidth() / 2) + (to - 1) * 150 - (disk * 20) / 2;
-            double targetY = 300 - (20 * (towers[to].size())); // Calculate Y position for the disk
-
-            // Create a pause before the transition to make the move visible
-            PauseTransition pause = new PauseTransition(Duration.seconds(1));
-            pause.setOnFinished(event -> {
-                // Create the animation for moving the disk
-                TranslateTransition transition = new TranslateTransition(Duration.seconds(1), diskRectangle);
-                transition.setFromX(diskRectangle.getX());
-                transition.setFromY(diskRectangle.getY());
-                transition.setToX(targetX);
-                transition.setToY(targetY);
-
-                // When the transition is finished, update the status text and redraw disks
-                transition.setOnFinished(event1 -> {
-                    drawDisks(); // Update the visual representation of disks
-                    // Update status text on the FX application thread
-                    Platform.runLater(() -> {
-                        statusText.setText("Moved disk " + disk + " from Tower " + (from + 1) + " to Tower " + (to + 1));
-                    });
-                });
-
-                // Start the transition
-                transition.play();
+    // Execute the next move step
+    private void executeNextMove() {
+        if (moveStepIndex < moveSteps.size()) {
+            MoveStep step = moveSteps.get(moveStepIndex);
+            animateMove(step, () -> {
+                moveStepIndex++;
+                executeNextMove(); // Execute the next move after current one finishes
             });
+        } else {
+            // Simulation completed
+            statusText.setText("Simulation completed in " + currentStep + " steps.");
+            // Re-enable buttons and input
+            simulateBTN.setDisable(false);
+            resetBTN.setDisable(false);
+            inputTF.setDisable(false);
+        }
+    }
 
-            // Start the pause before the disk move
-            pause.play();
+    // Animate a single move step
+    private void animateMove(MoveStep step, Runnable onFinished) {
+        Rectangle disk;
+        try {
+            disk = getTopDisk(step.from);
+        } catch (IllegalStateException e) {
+            statusText.setText("Error: " + e.getMessage());
+            // Re-enable buttons and input
+            simulateBTN.setDisable(false);
+            resetBTN.setDisable(false);
+            inputTF.setDisable(false);
+            return;
+        }
+
+        // Increment step count and update status
+        currentStep++;
+        Platform.runLater(() -> statusText.setText("Step " + currentStep + ": Move disk from Tower " + (step.from + 1) + " to Tower " + (step.to + 1)));
+
+        // Calculate target positions
+        double diskWidth = disk.getWidth();
+        double targetX = towerX[step.to] - (diskWidth / 2);
+        double targetY = 300 - ((towers[step.to].size()) * (disk.getHeight() + 5));
+
+        // Create TranslateTransition
+        TranslateTransition move = new TranslateTransition(Duration.seconds(0.5), disk);
+        move.setToX(targetX - disk.getLayoutX());
+        move.setToY(targetY - disk.getLayoutY());
+
+        move.setOnFinished(event -> {
+            // Update tower stacks
+            towers[step.from].pop();
+            towers[step.to].push(disk);
+
+            // Update the disk's layout position
+            disk.setLayoutX(targetX);
+            disk.setLayoutY(targetY);
+
+            // Reset translation
+            disk.setTranslateX(0);
+            disk.setTranslateY(0);
+
+            // Proceed to the next move
+            onFinished.run();
+        });
+
+        // Play the animation
+        move.play();
+    }
+
+    // Helper method to get the top disk from a tower
+    private Rectangle getTopDisk(int towerIndex) {
+        if (towers[towerIndex].isEmpty()) {
+            throw new IllegalStateException("Attempting to move a disk from an empty tower.");
+        }
+        return towers[towerIndex].peek();
+    }
+
+    private void resetGame() {
+        buildPANE.getChildren().clear();
+        inputTF.clear();
+        statusText.setText("Game reset. Enter number of disks to start.");
+        // Re-enable buttons and input in case they were disabled
+        simulateBTN.setDisable(false);
+        resetBTN.setDisable(false);
+        inputTF.setDisable(false);
+    }
+
+    // Inner class to represent a move step
+    private static class MoveStep {
+        int from;
+        int to;
+
+        MoveStep(int from, int to) {
+            this.from = from;
+            this.to = to;
         }
     }
 }
