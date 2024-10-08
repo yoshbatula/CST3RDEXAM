@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -23,6 +24,8 @@ import java.util.List;
 import java.util.Stack;
 
 public class HANOICONT {
+    @FXML
+    private TextArea resultArea;
 
     @FXML
     private AnchorPane buildPANE;
@@ -161,7 +164,20 @@ public class HANOICONT {
 
         // Increment step count and update status
         currentStep++;
-        Platform.runLater(() -> statusText.setText("Step " + currentStep + ": Move disk from Tower " + (step.from + 1) + " to Tower " + (step.to + 1)));
+        String moveDescription = "Step " + currentStep + ": Move disk from Tower " + (step.from + 1) + " to Tower " + (step.to + 1);
+        Platform.runLater(() -> {
+            statusText.setText(moveDescription);
+            resultArea.appendText(moveDescription + "\n"); // Update the resultArea with the move description
+        });
+
+// After all moves are executed, append the completion messages
+        if (moveStepIndex == moveSteps.size() - 1) {
+            Platform.runLater(() -> {
+                resultArea.appendText("Total number of steps: " + currentStep + "\n");
+                resultArea.appendText("Simulation Completed.\n");
+            });
+        }
+
 
         // Calculate target positions
         double diskWidth = disk.getWidth();
@@ -194,6 +210,17 @@ public class HANOICONT {
         move.play();
     }
 
+    private void resetGame() {
+        buildPANE.getChildren().clear();
+        inputTF.clear();
+        resultArea.clear(); // Clear the resultArea when resetting
+        statusText.setText("Game reset. Enter number of disks to start.");
+        // Re-enable buttons and input in case they were disabled
+        simulateBTN.setDisable(false);
+        resetBTN.setDisable(false);
+        inputTF.setDisable(false);
+    }
+
     // Helper method to get the top disk from a tower
     private Rectangle getTopDisk(int towerIndex) {
         if (towers[towerIndex].isEmpty()) {
@@ -202,15 +229,7 @@ public class HANOICONT {
         return towers[towerIndex].peek();
     }
 
-    private void resetGame() {
-        buildPANE.getChildren().clear();
-        inputTF.clear();
-        statusText.setText("Game reset. Enter number of disks to start.");
-        // Re-enable buttons and input in case they were disabled
-        simulateBTN.setDisable(false);
-        resetBTN.setDisable(false);
-        inputTF.setDisable(false);
-    }
+
 
     // Inner class to represent a move step
     private static class MoveStep {

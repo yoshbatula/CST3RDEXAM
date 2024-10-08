@@ -170,6 +170,11 @@
                   <Font name="Code-Bold" size="16.0" />
                </font>
             </Button>
+            <Text fill="#616161" layoutX="44.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Accepts string that ends with &quot;100&quot;">
+               <font>
+                  <Font name="Code-Bold" size="15.0" />
+               </font>
+            </Text>
          </children>
       </AnchorPane>
    </children>

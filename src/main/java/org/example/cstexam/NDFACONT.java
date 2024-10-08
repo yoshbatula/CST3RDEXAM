@@ -79,11 +79,6 @@ public class NDFACONT {
                     PauseTransition pauseQ1 = new PauseTransition(Duration.seconds(1));
                     pauseQ1.setOnFinished(event -> processInput(input, index + 1, "q1"));
                     pauseQ1.play();
-                } else if (currentChar == '1') {  // Fix: Remain in q0 for '1'
-                    highlightState(circleQ0, true);  // Stay in q0 (self-loop)
-                    PauseTransition pauseQ0 = new PauseTransition(Duration.seconds(1));
-                    pauseQ0.setOnFinished(event -> processInput(input, index + 1, "q0"));  // Continue processing in q0
-                    pauseQ0.play();
                 } else {
                     // Handle invalid input (neither '0' nor '1')
                     showResultAlert(false);

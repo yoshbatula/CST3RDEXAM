@@ -126,7 +126,11 @@ public class DFAV2CONT {
             case 3:
                 // q3 is a trap state (once reached, we remain here)
                 currentState = 3;
-                break;
+
+                if (symbol == '0') {
+                    currentState = 0;
+                    break;
+                }
         }
     }
 
@@ -178,7 +182,6 @@ public class DFAV2CONT {
 
     // Reset the DFA and highlight the initial state q0
     private void resetDFA() {
-        inputTF.setText("");
         currentState = 0; // Reset to initial state
         highlightState(currentState); // Highlight the initial state
     }
