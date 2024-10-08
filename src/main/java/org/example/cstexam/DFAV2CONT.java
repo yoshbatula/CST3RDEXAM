@@ -3,13 +3,19 @@ package org.example.cstexam;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import java.io.IOException;
 
 public class DFAV2CONT {
 
@@ -33,6 +39,10 @@ public class DFAV2CONT {
 
     @FXML
     private TextField inputTF;
+
+    @FXML
+    private Button exitbtn;
+
 
     private int currentState;
 
@@ -171,5 +181,20 @@ public class DFAV2CONT {
         inputTF.setText("");
         currentState = 0; // Reset to initial state
         highlightState(currentState); // Highlight the initial state
+    }
+
+    public void exit(ActionEvent event) throws IOException {
+
+        if (event.getSource() == exitbtn) {
+
+            Stage window = (Stage) exitbtn.getScene().getWindow();
+            window.close();
+
+            Stage stage = new Stage();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+            stage.setScene(scene);
+            stage.show();
+        }
     }
 }

@@ -1,10 +1,15 @@
 package org.example.cstexam;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class CFGCONT {
 
@@ -27,7 +32,7 @@ public class CFGCONT {
     void initialize() {
         resultBTN.setOnAction(event -> checkCFG());
         clearBTN.setOnAction(event -> clearFields());
-        exitBTN.setOnAction(event -> exitApplication());
+
     }
 
     private void checkCFG() {
@@ -92,8 +97,19 @@ public class CFGCONT {
         resultAREA.clear();
     }
 
-    private void exitApplication() {
-        Stage stage = (Stage) exitBTN.getScene().getWindow();
-        stage.close();
+
+    public void exit(ActionEvent event) throws IOException {
+
+        if (event.getSource() == exitBTN) {
+
+            Stage window = (Stage) exitBTN.getScene().getWindow();
+            window.close();
+
+            Stage stage = new Stage();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+            stage.setScene(scene);
+            stage.show();
+        }
     }
 }

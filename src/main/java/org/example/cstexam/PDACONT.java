@@ -1,10 +1,16 @@
 package org.example.cstexam;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import org.controlsfx.control.action.Action;
 
+import java.io.IOException;
 import java.util.Stack;
 
 public class PDACONT {
@@ -28,7 +34,6 @@ public class PDACONT {
     public void initialize() {
         resultBTN.setOnAction(e -> processInput());
         clearBTN.setOnAction(e -> clearFields());
-        exitBTN.setOnAction(e -> System.exit(0));
     }
 
     private void processInput() {
@@ -100,5 +105,20 @@ public class PDACONT {
     private void clearFields() {
         inputTF.clear();
         resultAREA.clear();
+    }
+
+    public void exit(ActionEvent event) throws IOException {
+
+        if (event.getSource() == exitBTN) {
+
+            Stage window = (Stage) exitBTN.getScene().getWindow();
+            window.close();
+
+            Stage stage = new Stage();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+            stage.setScene(scene);
+            stage.show();
+        }
     }
 }

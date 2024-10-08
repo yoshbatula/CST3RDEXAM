@@ -3,11 +3,17 @@ package org.example.cstexam;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,6 +24,9 @@ public class BACKUPCONT {
 
     @FXML
     private TextField secondTF;
+
+    @FXML
+    private Button exitBTN;
 
     @FXML
     private TextField resultTF;
@@ -76,9 +85,20 @@ public class BACKUPCONT {
     }
 
     @FXML
-    private void handleExit() {
-        System.exit(0);
-    }
+        public void handleExit(ActionEvent event) throws IOException {
+
+            if (event.getSource() == exitBTN) {
+
+                Stage window = (Stage) exitBTN.getScene().getWindow();
+                window.close();
+
+                Stage stage = new Stage();
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main.fxml"));
+                Scene scene = new Scene(fxmlLoader.load());
+                stage.setScene(scene);
+                stage.show();
+            }
+        }
 
     private String addBinary(String binary1, String binary2) {
         int i = binary1.length() - 1;

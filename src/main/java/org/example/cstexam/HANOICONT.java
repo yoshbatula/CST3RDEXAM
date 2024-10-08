@@ -3,7 +3,10 @@ package org.example.cstexam;
 import javafx.animation.PauseTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -11,8 +14,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -33,6 +38,9 @@ public class HANOICONT {
 
     @FXML
     private Text statusText;
+
+    @FXML
+    private Button exitbtn;
 
     private Stack<Rectangle>[] towers;
     private int numDisks;
@@ -212,6 +220,21 @@ public class HANOICONT {
         MoveStep(int from, int to) {
             this.from = from;
             this.to = to;
+        }
+    }
+
+    public void exit(ActionEvent event) throws IOException {
+
+        if (event.getSource() == exitbtn) {
+
+            Stage window = (Stage) exitbtn.getScene().getWindow();
+            window.close();
+
+            Stage stage = new Stage();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+            stage.setScene(scene);
+            stage.show();
         }
     }
 }

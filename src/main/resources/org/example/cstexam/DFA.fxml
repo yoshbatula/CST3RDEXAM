@@ -41,7 +41,7 @@
                   <Font name="Code-Bold" size="16.0" />
                </font>
             </Button>
-            <Button fx:id="clearBTN" layoutX="201.0" layoutY="151.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="123.0" style="-fx-background-color: #616161; -fx-text-fill: white; -fx-background-radius: 10px;" text="CLEAR">
+            <Button fx:id="clearBTN" layoutX="192.0" layoutY="151.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="123.0" style="-fx-background-color: #616161; -fx-text-fill: white; -fx-background-radius: 10px;" text="CLEAR">
                <font>
                   <Font name="Code-Bold" size="16.0" />
                </font>
@@ -165,6 +165,11 @@
                   <Font size="16.0" />
                </font>
             </Text>
+            <Button fx:id="exitbtn" layoutX="340.0" layoutY="151.0" mnemonicParsing="false" onAction="#exit" prefHeight="30.0" prefWidth="123.0" style="-fx-background-color: #616161; -fx-text-fill: white; -fx-background-radius: 10px;" text="exit">
+               <font>
+                  <Font name="Code-Bold" size="16.0" />
+               </font>
+            </Button>
          </children>
       </AnchorPane>
    </children>

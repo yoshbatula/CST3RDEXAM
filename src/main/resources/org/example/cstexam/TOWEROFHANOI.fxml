@@ -51,6 +51,11 @@
                      </font>
                   </Text>
                </children></AnchorPane>
+            <Button fx:id="exitbtn" layoutX="372.0" layoutY="143.0" mnemonicParsing="false" onAction="#exit" prefHeight="30.0" prefWidth="110.0" style="-fx-background-radius: 10px; -fx-background-color: #616161; -fx-text-fill: white;" text="EXIT">
+               <font>
+                  <Font name="Code-Bold" size="16.0" />
+               </font>
+            </Button>
          </children>
       </AnchorPane>
    </children>

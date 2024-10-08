@@ -153,7 +153,7 @@
                   <Font name="Code-Bold" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="exitBTN" layoutX="160.0" layoutY="143.0" mnemonicParsing="false" style="-fx-background-color: #616161; -fx-text-fill: white; -fx-background-radius: 10px;" text="EXIT">
+            <Button fx:id="exitBTN" layoutX="160.0" layoutY="143.0" mnemonicParsing="false" onAction="#exit" style="-fx-background-color: #616161; -fx-text-fill: white; -fx-background-radius: 10px;" text="EXIT">
                <font>
                   <Font name="Code-Bold" size="14.0" />
                </font>
