@@ -1,0 +1,1 @@
+This system is built using JavaFX and simulates the behavior of various computational models, including DFA (Deterministic Finite Automaton), NDFA (Nondeterministic Finite Automaton), PDA (Pushdown Automaton), CFG (Context-Free Grammar), and Turing Machines. Additionally, it includes a simulation of the Tower of Hanoi problem.
